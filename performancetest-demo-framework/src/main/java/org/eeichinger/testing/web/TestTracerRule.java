@@ -1,7 +1,7 @@
 package org.eeichinger.testing.web;
 
-import org.junit.rules.TestWatchman;
-import org.junit.runners.model.FrameworkMethod;
+import org.junit.rules.TestWatcher;
+import org.junit.runner.Description;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -10,22 +10,22 @@ import org.slf4j.LoggerFactory;
  *
  * @author Neale Upstone/OpenCredo
  */
-public class TestTracerRule extends TestWatchman {
+public class TestTracerRule extends TestWatcher {
     
     protected final Logger log = LoggerFactory.getLogger(getClass());
     
     @Override
-    public void starting(FrameworkMethod method) {
-        log.info("Starting: {}", method.getName());
+    public void starting(Description description) {
+        log.info("Starting: {}", description.getMethodName());
     }
 
     @Override
-    public void failed(Throwable e, FrameworkMethod method) {
-        log.error("Failed: {}", method.getName(), e);
+    public void failed(Throwable e, Description description) {
+        log.error("Failed: {}", description.getMethodName(), e);
     }
 
     @Override
-    public void succeeded(FrameworkMethod method) {
-        log.info("Success: {}", method.getName());
+    public void succeeded(Description description) {
+        log.info("Success: {}", description.getMethodName());
     }
 }

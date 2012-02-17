@@ -1,8 +1,8 @@
 package org.eeichinger.testing.web;
 
 import org.apache.commons.io.FileUtils;
-import org.junit.rules.TestWatchman;
-import org.junit.runners.model.FrameworkMethod;
+import org.junit.rules.TestWatcher;
+import org.junit.runner.Description;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
@@ -19,7 +19,7 @@ import java.io.IOException;
  * @author Neale Upstone/OpenCredo
  * @author Erich Eichinger/OpenCredo
  */
-public final class ScreenshotCaptureRule extends TestWatchman {
+public final class ScreenshotCaptureRule extends TestWatcher {
 
     protected final Logger log = LoggerFactory.getLogger(getClass());
 
@@ -34,9 +34,9 @@ public final class ScreenshotCaptureRule extends TestWatchman {
     }
 
     @Override
-	public void failed(Throwable e, FrameworkMethod method) {
-		String methodName = method.getMethod().getName();
-		log.error(String.format("Failure in %s.%s", method.getMethod().getDeclaringClass().getName(), methodName), e);
+	public void failed(Throwable e, Description description) {
+		String methodName = description.getMethodName();
+		log.error(String.format("Failure in %s.%s", description.getClassName(), methodName), e);
 		if (Settings.TAKE_ERROR_SCREENSHOTS) {
 			captureScreen(screenshotPath, methodName);
 		}
